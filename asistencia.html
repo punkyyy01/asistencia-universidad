@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Control de Asistencia</title>
+  <meta name="description" content="Control de asistencia universitaria por ramos, horarios y clases.">
+  <meta name="theme-color" content="#0f1117">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icons/icon-192.svg">
+  <link rel="apple-touch-icon" href="icons/icon-192.svg">
   <style>
     :root {
       --bg:      #0f1117;
@@ -351,6 +358,7 @@ const MONTHS   = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
 const MONTHS_S = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const COLORS   = ['#5b6af5','#22c55e','#f59e0b','#ef4444','#3b82f6',
                   '#ec4899','#14b8a6','#f97316','#a855f7','#84cc16'];
+const NO_SEM_END_LOOKAHEAD_DAYS = 30;
 
 // ════════════════════════════════════════
 // STATE
@@ -465,7 +473,13 @@ function getTimeRange() {
 function genClasses(sub) {
   if (!S.semStart || !sub.schedule?.length) return [];
   const start = parseD(S.semStart);
-  let end = S.semEnd ? parseD(S.semEnd) : new Date();
+  let end;
+  if (S.semEnd) {
+    end = parseD(S.semEnd);
+  } else {
+    end = new Date();
+    end.setDate(end.getDate() + NO_SEM_END_LOOKAHEAD_DAYS);
+  }
   end = new Date(end); end.setHours(23,59,59,999);
   const res=[], cur=new Date(start);
   while (cur<=end) {
@@ -1100,9 +1114,9 @@ function renderSchedEntries(){
   el.innerHTML=editingSched.map((e,i)=>`
     <div class="sched-entry">
       <select class="sched-day" onchange="editingSched[${i}].day=+this.value">${dayOpts(e.day)}</select>
-      <input type="time" class="fi-t" value="${e.start}" onchange="editingSched[${i}].start=this.value">
+      <input type="time" class="fi-t" value="${e.start}" oninput="editingSched[${i}].start=this.value">
       <span class="sched-arrow">→</span>
-      <input type="time" class="fi-t" value="${e.end}" onchange="editingSched[${i}].end=this.value">
+      <input type="time" class="fi-t" value="${e.end}" oninput="editingSched[${i}].end=this.value">
       <button class="ibtn" onclick="removeSchedEntry(${i})" title="Quitar">✕</button>
     </div>`).join('');
 }
@@ -1129,6 +1143,12 @@ function saveSubj(editId){
   if(!name)                              { alert('Ingresa el nombre del ramo'); return; }
   if(isNaN(minAtt)||minAtt<0||minAtt>100){ alert('El % debe ser entre 0 y 100'); return; }
   if(!schedule.length)                   { alert('Agrega al menos un bloque horario'); return; }
+
+  const badSlot=schedule.find(sl=>tMin(sl.end)<=tMin(sl.start));
+  if(badSlot){
+    alert(`Bloque horario inválido en ${DAYS_F[badSlot.day]} (${badSlot.start}–${badSlot.end}). La hora de término debe ser posterior al inicio.`);
+    return;
+  }
 
   if(editId){
     const oldSub=S.subjects.find(x=>x.id===editId);
@@ -1288,6 +1308,14 @@ function confirmReset(){
 // INIT
 // ════════════════════════════════════════
 render();
+
+if ('serviceWorker' in navigator && window.isSecureContext) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch((err) => {
+      console.warn('No se pudo registrar el Service Worker:', err);
+    });
+  });
+}
 </script>
 </body>
 </html>
