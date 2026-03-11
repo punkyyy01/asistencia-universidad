@@ -31,14 +31,18 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
          background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
+    #app{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
 
     /* ── HEADER ── */
     .hdr{background:var(--sur);border-bottom:1px solid var(--border);
-         padding:0 20px;height:56px;display:flex;align-items:center;
-         justify-content:space-between;position:sticky;top:0;z-index:200}
+         padding:0 20px;min-height:56px;display:flex;align-items:center;
+         justify-content:space-between;gap:10px;position:sticky;top:0;z-index:200}
     .hdr-title{font-size:16px;font-weight:700}
     .hdr-title span{color:var(--accent)}
-    .hdr-right{display:flex;gap:6px;align-items:center}
+    .hdr-right{display:flex;gap:10px;align-items:center;min-width:0}
+    .hdr-actions{display:flex;gap:6px;align-items:center}
+    .btn-ico{line-height:1}
+    .btn-label{line-height:1}
 
     /* ── BUTTONS ── */
     .btn{padding:7px 13px;border-radius:var(--rsm);border:1px solid transparent;
@@ -58,7 +62,7 @@
     .ibtn:hover{background:var(--sur2);color:var(--text)}
 
     /* ── VIEW TABS ── */
-    .tabs{display:flex;gap:4px}
+    .tabs{display:flex;gap:4px;min-width:0}
     .tab{padding:5px 12px;border-radius:var(--rsm);border:1px solid var(--border);
          background:transparent;color:var(--muted);cursor:pointer;font-size:12px;font-weight:500}
     .tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
@@ -66,7 +70,7 @@
     /* ══════════════════════════════════
        CALENDAR VIEW
     ══════════════════════════════════ */
-    #main{height:calc(100vh - 56px);display:flex;flex-direction:column;overflow:hidden}
+    #main{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
 
     .cal-nav{display:flex;align-items:center;gap:8px;padding:10px 16px;
              background:var(--sur);border-bottom:1px solid var(--border);flex-shrink:0}
@@ -135,7 +139,7 @@
        LIST VIEW (cards)
     ══════════════════════════════════ */
     .list-wrap{flex:1;overflow-y:auto;padding:20px}
-    .list-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;align-items:start}
+    .list-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;align-items:start}
 
     /* ── GROUP LABEL ── */
     .group-wrap{display:flex;flex-direction:column;gap:5px}
@@ -319,10 +323,64 @@
     ::-webkit-scrollbar-track{background:var(--bg)}
     ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 
-    @media(max-width:600px){
-      .hdr{padding:0 12px}
-      .cal-range{font-size:12px}
+    @media(max-width:960px){
+      .hdr{padding:10px 14px;min-height:auto;align-items:stretch;flex-direction:column}
+      .hdr-right{width:100%;flex-direction:column;align-items:stretch;gap:8px}
+      .tabs{width:100%}
+      .tab{flex:1;text-align:center;padding:7px 8px}
+      .hdr-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+      .hdr-actions .btn{justify-content:center;padding:8px 8px}
+
+      .cal-nav{padding:10px 12px;flex-wrap:wrap;gap:7px}
+      .cal-range{order:-1;flex:1 0 100%;text-align:left}
+      .cal-nav .btn{flex:1;justify-content:center;min-width:0}
+      .cal-nav .btn-g{flex:0 0 auto;border:1px solid var(--border);background:var(--sur2);border-radius:var(--rsm)}
+      .cal-grid{grid-template-columns:46px repeat(6,minmax(108px,1fr));min-width:694px}
+
+      .list-wrap,.detail-wrap{padding:14px}
+      .list-grid{grid-template-columns:1fr}
+      .group-cards{flex-direction:column;gap:8px}
+      .group-cards>.card{border-radius:var(--r);border-right:1px solid var(--border)}
+      .group-cards>.card:first-child,
+      .group-cards>.card:last-child,
+      .group-cards>.card:only-child{border-radius:var(--r)}
+
+      .det-head{flex-wrap:wrap;margin-bottom:14px}
+      .det-title{flex-wrap:wrap;row-gap:6px}
+      .det-title h2{font-size:18px}
+      .stats-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .crow{flex-direction:column;align-items:flex-start;gap:8px}
+      .cacts{width:100%;flex-wrap:wrap}
+      .cacts .mbtn,.cacts .offbtn{flex:1 1 130px;text-align:center}
+
+      .modal{max-height:92dvh}
+      .mhd,.mbody,.mfoot{padding-left:14px;padding-right:14px}
+      .sched-entry{flex-wrap:wrap}
+      .sched-day{flex:1 1 100%}
+      .fi-t{flex:1 1 calc(50% - 16px);width:auto}
+      .sched-arrow{display:none}
       .frow{grid-template-columns:1fr}
+    }
+
+    @media(max-width:600px){
+      .hdr{padding:10px}
+      .hdr-title{font-size:15px}
+      .hdr-actions .btn-label{display:none}
+      .hdr-actions .btn{padding:8px 6px}
+      .tab{font-size:11px;padding:7px 6px}
+
+      .cal-range{font-size:12px}
+      .list-wrap,.detail-wrap{padding:12px}
+      .card{padding:14px}
+      .card-head{flex-direction:column;gap:8px}
+      .card-meta{flex-wrap:wrap;gap:6px}
+      .det-acts .btn{flex:1 1 100%;justify-content:center}
+    }
+
+    @media(max-width:420px){
+      .cal-grid{grid-template-columns:42px repeat(6,minmax(100px,1fr));min-width:642px}
+      .fi-t{flex:1 1 100%}
+      .sched-entry .ibtn{margin-left:auto}
     }
   </style>
 </head>
@@ -335,9 +393,11 @@
         <button class="tab active" id="tab-cal" onclick="switchView('cal')">📅 Semana</button>
         <button class="tab" id="tab-list" onclick="switchView('list')">📊 Ramos</button>
       </div>
-      <button class="btn btn-s" onclick="openDayModal()">🚫 Día libre</button>
-      <button class="btn btn-s" onclick="openSettings()">⚙</button>
-      <button class="btn btn-p" onclick="openSubjModal(null)">+ Ramo</button>
+      <div class="hdr-actions">
+        <button class="btn btn-s" onclick="openDayModal()"><span class="btn-ico">🚫</span><span class="btn-label">Día libre</span></button>
+        <button class="btn btn-s" onclick="openSettings()"><span class="btn-ico">⚙</span><span class="btn-label">Config</span></button>
+        <button class="btn btn-p" onclick="openSubjModal(null)"><span class="btn-ico">+</span><span class="btn-label">Ramo</span></button>
+      </div>
     </div>
   </header>
   <main id="main"></main>
