@@ -505,6 +505,91 @@
       .cls-actions{display:none!important}
       .modal,.qpop{touch-action:pan-y}
     }
+
+    /* ══════════════════════════════════
+       MOBILE DAY VIEW
+    ══════════════════════════════════ */
+    .mob-week-dots{display:flex;justify-content:center;gap:4px;padding:6px 10px 4px;
+      background:var(--sur);border-bottom:1px solid var(--border)}
+    .mob-dot-btn{width:38px;height:38px;border-radius:8px;border:none;background:transparent;
+      color:var(--muted);cursor:pointer;font-size:11px;font-weight:700;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:1px;transition:var(--tr);touch-action:manipulation}
+    .mob-dot-btn:hover{background:var(--sur2)}
+    .mob-dot-btn.mob-dot-active{background:var(--accent);color:#fff}
+    .mob-dot-btn.mob-dot-today:not(.mob-dot-active){color:var(--accent)}
+    .mob-dot-initial{font-size:11px;font-weight:800}
+    .mob-dot-day{font-size:9px;font-weight:500}
+
+    .mob-day-bigname{font-size:15px;font-weight:700}
+    .mob-day-bigname.mob-today{color:var(--accent)}
+    .mob-day-bigdate{font-size:12px;color:var(--muted)}
+
+    .mob-day-wrap{padding:12px;display:flex;flex-direction:column;gap:10px;
+      overscroll-behavior-x:contain}
+
+    /* Override the 960px media query flex:1 on nav btns for mobile day view */
+    @media(max-width:600px){
+      .cal-nav .btn{flex:0 0 auto}
+      .cal-range{flex:1;text-align:center}
+    }
+
+    .mob-cls-item{background:var(--sur);border:1px solid var(--border);
+      border-left:4px solid var(--accent);border-radius:var(--r);padding:12px 14px;
+      transition:var(--tr)}
+    .mob-cls-item.mob-cls-att{background:rgba(34,197,94,.05);border-color:rgba(34,197,94,.28)}
+    .mob-cls-item.mob-cls-abs{background:rgba(239,68,68,.05);border-color:rgba(239,68,68,.28)}
+    .mob-cls-item.mob-cls-off{opacity:.5}
+    .mob-cls-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+    .mob-cls-info{min-width:0;flex:1}
+    .mob-cls-name{font-size:15px;font-weight:700;margin-bottom:2px;overflow:hidden;
+      text-overflow:ellipsis;white-space:nowrap}
+    .mob-cls-meta{font-size:12px;color:var(--muted)}
+    .mob-cls-badge{width:28px;height:28px;border-radius:50%;flex-shrink:0;margin-left:8px;
+      display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+    .mob-badge-ok{background:rgba(34,197,94,.2);color:var(--green)}
+    .mob-badge-bad{background:rgba(239,68,68,.2);color:var(--red)}
+    .mob-badge-warn{background:rgba(245,158,11,.2);color:var(--yellow)}
+    .mob-cls-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .mob-att-btn{flex:1;padding:10px 8px;border-radius:var(--rsm);border:1px solid var(--border);
+      background:var(--sur2);color:var(--muted);cursor:pointer;font-size:14px;font-weight:600;
+      transition:var(--tr);min-height:44px;touch-action:manipulation}
+    .mob-att-btn.mob-att-ok.active{background:var(--green);border-color:var(--green);color:#fff}
+    .mob-att-btn.mob-att-bad.active{background:var(--red);border-color:var(--red);color:#fff}
+    .mob-att-btn:not(.active):hover{border-color:var(--muted);color:var(--text)}
+    .mob-off-btn{padding:8px 10px;border-radius:var(--rsm);border:1px solid transparent;
+      background:transparent;color:var(--muted);cursor:pointer;font-size:12px;transition:var(--tr);
+      display:inline-flex;align-items:center;gap:4px;min-height:44px;touch-action:manipulation}
+    .mob-off-btn:hover{border-color:var(--red);color:var(--red)}
+    .mob-cls-label{font-size:13px;color:var(--muted);display:inline-flex;
+      align-items:center;min-height:44px;padding:0 4px}
+    .mob-no-classes,.mob-day-off{text-align:center;padding:40px 20px;color:var(--muted);
+      font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px}
+
+    /* Bottom sheet modals on mobile */
+    @media(max-width:600px){
+      .overlay{align-items:flex-end;padding:0}
+      .modal{border-radius:18px 18px 0 0;max-width:100%;width:100%;
+        max-height:92dvh;padding-bottom:max(0px,env(safe-area-inset-bottom))}
+      .qpop{border-radius:18px 18px 0 0;max-width:100%;width:100%;min-width:0;
+        padding-bottom:max(16px,calc(env(safe-area-inset-bottom) + 16px))}
+      .modal::before,.qpop::before{content:'';display:block;width:36px;height:4px;
+        background:var(--border);border-radius:2px;margin:10px auto 2px;flex-shrink:0}
+      /* Ensure modal body doesn't get covered by handle indicator */
+      .mhd{padding-top:8px}
+    }
+
+    /* Safe area support */
+    .hdr{padding-top:max(0px,env(safe-area-inset-top))}
+    .toast-wrap{bottom:max(14px,calc(env(safe-area-inset-bottom) + 14px))}
+    @supports(padding:max(0px)){
+      @media(max-width:600px){
+        .list-wrap,.detail-wrap{
+          padding-left:max(12px,env(safe-area-inset-left));
+          padding-right:max(12px,env(safe-area-inset-right));
+        }
+      }
+    }
   </style>
 </head>
 <body>
@@ -513,7 +598,7 @@
     <div class="hdr-title">Control de <span>Asistencia</span></div>
     <div class="hdr-right">
       <div class="tabs">
-        <button class="tab active" id="tab-cal" onclick="switchView('cal')"><span class="tab-ico" aria-hidden="true"><i data-lucide="calendar"></i></span><span>Semana</span></button>
+        <button class="tab active" id="tab-cal" onclick="switchView('cal')"><span class="tab-ico" aria-hidden="true"><i data-lucide="calendar"></i></span><span id="tab-cal-label">Horario</span></button>
         <button class="tab" id="tab-list" onclick="switchView('list')"><span class="tab-ico" aria-hidden="true"><i data-lucide="book-open"></i></span><span>Ramos</span></button>
       </div>
       <div class="hdr-actions">
@@ -625,6 +710,10 @@ function migrateOld(d) {
 }
 
 function saveState() { localStorage.setItem(KEY, JSON.stringify(S)); render(); }
+
+// Per-render memoization cache — reset at the top of every render() call.
+// Keyed by subject id. No manual invalidation needed: cache is wiped on every render.
+let _rc = { gc: null, cs: null };
 
 // key for a specific class instance
 function classKey(subId,date,slot){ return `${subId}_${date}_${slot.start.replace(':','')}`; }
@@ -930,6 +1019,7 @@ function getTimeRange() {
 // ════════════════════════════════════════
 // Returns [{date, slot}] — one entry per class instance (multiple per day possible)
 function genClasses(sub) {
+  if (_rc.gc?.has(sub.id)) return _rc.gc.get(sub.id);
   if (!S.semStart || !sub.schedule?.length) return [];
   const start = parseD(S.semStart);
   let end;
@@ -949,6 +1039,7 @@ function genClasses(sub) {
     }
     cur.setDate(cur.getDate()+1);
   }
+  _rc.gc?.set(sub.id, res);
   return res;
 }
 
@@ -1053,6 +1144,7 @@ function onCalendarBlockTouchCancel(_event,el){
 }
 
 function calcStats(sub) {
+  if (_rc.cs?.has(sub.id)) return _rc.cs.get(sub.id);
   const today = toStr(new Date());
   const all = genClasses(sub);
   const past = all.filter(c => c.date <= today);
@@ -1088,7 +1180,9 @@ function calcStats(sub) {
     canMiss = (attended + actFut) - req;
   }
   
-  return {actPast, attended, absent, unmarked, actFut, total, pct, canMiss, status};
+  const result = {actPast, attended, absent, unmarked, actFut, total, pct, canMiss, status};
+  _rc.cs?.set(sub.id, result);
+  return result;
 }
 
 function calcGlobalStats() {
@@ -1111,6 +1205,7 @@ function calcGlobalStats() {
 let curView   = 'cal';   // 'cal' | 'list' | 'detail'
 let weekOffset= 0;
 let detailId  = null;
+let mobileDayOffset = 0; // días desde hoy en la vista diaria móvil
 
 function switchView(v) {
   curView=v;
@@ -1125,11 +1220,14 @@ function goBack()     {
   document.getElementById('tab-list').classList.toggle('active',prev==='list');
   document.getElementById('tab-cal').classList.toggle('active',prev==='cal');
 }
+function shiftMobileDay(delta) { mobileDayOffset += delta; render(); }
+function isMobileDayView() { return window.innerWidth <= 600; }
 
 // ════════════════════════════════════════
 // RENDER
 // ════════════════════════════════════════
 function render() {
+  _rc = { gc: new Map(), cs: new Map() };
   const main=document.getElementById('main');
   if(curView==='cal')    main.innerHTML=renderCal();
   else if(curView==='list')   main.innerHTML=renderList();
@@ -1141,6 +1239,7 @@ function render() {
 
 // ── CALENDAR ──
 function renderCal() {
+  if (isMobileDayView()) return renderCalMobile();
   const dates  = getWeekDates(weekOffset);
   const today  = toStr(new Date());
   const {start:SH, end:EH} = getTimeRange();
@@ -1222,6 +1321,157 @@ function renderCal() {
       ${gridHTML}
     </div>
   </div>`;
+}
+
+// ── MOBILE DAY VIEW ──
+function renderCalMobile() {
+  const today = toStr(new Date());
+  const base = new Date();
+  base.setDate(base.getDate() + mobileDayOffset);
+  base.setHours(0,0,0,0);
+  const ds = toStr(base);
+  const isToday = ds === today;
+
+  // Week dots: Mon–Sat of the week containing `base`
+  const dow = base.getDay();
+  const diffToMon = dow === 0 ? -6 : 1 - dow;
+  const weekMon = new Date(base);
+  weekMon.setDate(base.getDate() + diffToMon);
+  const todayDate = parseD(today);
+  todayDate.setHours(0,0,0,0);
+
+  const weekDates = Array.from({length:6}, (_,i) => {
+    const d = new Date(weekMon);
+    d.setDate(weekMon.getDate() + i);
+    return d;
+  });
+  const dotsHtml = weekDates.map(d => {
+    const dStr = toStr(d);
+    const diffFromToday = Math.round((d.getTime() - todayDate.getTime()) / 86400000);
+    const isActive = dStr === ds;
+    const isTod = dStr === today;
+    return `<button class="mob-dot-btn${isActive?' mob-dot-active':''}${isTod&&!isActive?' mob-dot-today':''}"
+        onclick="mobileDayOffset=${diffFromToday};render()" aria-label="${DAYS_F[d.getDay()]} ${d.getDate()}">
+      <span class="mob-dot-initial">${DAYS_S[d.getDay()]}</span>
+      <span class="mob-dot-day">${d.getDate()}</span>
+    </button>`;
+  }).join('');
+
+  const nav = `<div class="cal-nav">
+    <button class="btn btn-s" onclick="shiftMobileDay(-1)" aria-label="Día anterior">‹</button>
+    <div class="cal-range">
+      <div class="mob-day-bigname${isToday?' mob-today':''}">${DAYS_F[base.getDay()]}</div>
+      <div class="mob-day-bigdate">${base.getDate()} ${MONTHS_S[base.getMonth()]} ${base.getFullYear()}</div>
+    </div>
+    <button class="btn btn-s" onclick="shiftMobileDay(1)" aria-label="Día siguiente">›</button>
+    <button class="btn btn-g" onclick="mobileDayOffset=0;render()">Hoy</button>
+  </div>
+  <div class="mob-week-dots" role="tablist" aria-label="Días de la semana">${dotsHtml}</div>`;
+
+  if (!S.subjects.length) {
+    return `${nav}
+    <div class="cal-empty-wrap">
+      <div class="empty-state cal-empty-state">
+        <div class="eico">${icon('calendar')}</div>
+        <h2>Tu semana está vacía</h2>
+        <p>Agrega tu primer ramo para visualizar bloques y marcar asistencia.</p>
+        <button class="btn btn-p" onclick="openSubjModal(null)">${icon('plus','btn-ico')}<span class="btn-label">Agregar primer ramo</span></button>
+      </div>
+    </div>`;
+  }
+
+  const inSemDay = ds >= S.semStart && (!S.semEnd || ds <= S.semEnd);
+  const isDayOff = S.offDays.includes(ds);
+
+  const dayClasses = [];
+  for (const s of S.subjects) {
+    for (const slot of (s.schedule||[])) {
+      if (slot.day === base.getDay()) dayClasses.push({s, slot});
+    }
+  }
+  dayClasses.sort((a,b) => tMin(a.slot.start) - tMin(b.slot.start));
+
+  let classesHtml = '';
+  if (isDayOff) {
+    classesHtml = `<div class="mob-day-off">${icon('ban','ico-inline')} Día libre</div>`;
+  } else if (dayClasses.length === 0) {
+    classesHtml = `<div class="mob-no-classes">${icon('coffee','ico-inline')} Sin clases este día</div>`;
+  } else {
+    classesHtml = dayClasses.map(({s,slot}) => renderMobileCls(s, ds, slot, today, inSemDay)).join('');
+  }
+
+  return `${nav}
+  <div class="mob-day-wrap" id="mob-day-wrap"
+    ontouchstart="mobSwipeStart(event)"
+    ontouchmove="mobSwipeMove(event)"
+    ontouchend="mobSwipeEnd(event)">
+    ${classesHtml}
+  </div>`;
+}
+
+function renderMobileCls(s, ds, slot, today, inSem) {
+  const key = classKey(s.id, ds, slot);
+  const active = isActive(s.id, ds, slot);
+  const att = S.attendance[key];
+  const isPast = ds <= today;
+  const isDayOff = S.offDays.includes(ds);
+  const isClsOff = !!S.offClasses[key];
+
+  let statusCls = '';
+  if (!inSem || !active) statusCls = 'mob-cls-off';
+  else if (att === true)  statusCls = 'mob-cls-att';
+  else if (att === false) statusCls = 'mob-cls-abs';
+
+  const badge = att === true
+    ? `<span class="mob-cls-badge mob-badge-ok">✓</span>`
+    : att === false
+    ? `<span class="mob-cls-badge mob-badge-bad">✗</span>`
+    : (isPast && active && inSem ? `<span class="mob-cls-badge mob-badge-warn">?</span>` : '');
+
+  let actBtns = '';
+  if (active && isPast && inSem) {
+    actBtns = `<button class="mob-att-btn mob-att-ok${att===true?' active':''}" onclick="markCls('${s.id}','${ds}','${slot.start}',true)">✓ Asistí</button>
+      <button class="mob-att-btn mob-att-bad${att===false?' active':''}" onclick="markCls('${s.id}','${ds}','${slot.start}',false)">✗ Falta</button>`;
+  } else if (!active) {
+    actBtns = `<span class="mob-cls-label">${isDayOff?'Día libre':'Cancelada'}</span>`;
+  } else {
+    actBtns = `<span class="mob-cls-label">Próxima</span>`;
+  }
+
+  let offBtn = '';
+  if (inSem && !isDayOff) {
+    offBtn = isClsOff
+      ? `<button class="mob-off-btn" onclick="toggleCls('${s.id}','${ds}','${slot.start}')">↩ Reactivar</button>`
+      : `<button class="mob-off-btn" onclick="toggleCls('${s.id}','${ds}','${slot.start}')">${icon('ban','ico-inline')} Cancelar</button>`;
+  }
+
+  return `<div class="mob-cls-item ${statusCls}" style="border-left-color:${s.color}">
+    <div class="mob-cls-header">
+      <div class="mob-cls-info">
+        <div class="mob-cls-name">${esc(s.name)}</div>
+        <div class="mob-cls-meta">${slot.start}–${slot.end} · ${esc(s.type)}</div>
+      </div>
+      ${badge}
+    </div>
+    <div class="mob-cls-actions">${actBtns}${offBtn}</div>
+  </div>`;
+}
+
+// Swipe left/right for day navigation
+let _msx = null, _msy = null;
+function mobSwipeStart(ev) {
+  if (ev.touches.length !== 1) return;
+  _msx = ev.touches[0].clientX;
+  _msy = ev.touches[0].clientY;
+}
+function mobSwipeMove(ev) { /* allow normal scroll */ }
+function mobSwipeEnd(ev) {
+  if (_msx === null) return;
+  const dx = ev.changedTouches[0].clientX - _msx;
+  const dy = Math.abs(ev.changedTouches[0].clientY - _msy);
+  _msx = null; _msy = null;
+  if (Math.abs(dx) < 60 || dy > Math.abs(dx) * 0.8) return;
+  shiftMobileDay(dx < 0 ? 1 : -1);
 }
 
 function positionBlocks() {
@@ -1602,10 +1852,6 @@ function toggleCls(subId,date,startTime){
 function addOffDay(date){
   if(!S.offDays.includes(date)){
     S.offDays.push(date);
-    // remove all attendance marks for that date across all subjects and slots
-    for(const k of Object.keys(S.attendance)){
-      if(k.includes(`_${date}_`)) delete S.attendance[k];
-    }
     saveState();
     toast('Día inhabilitado', 'ok');
   }
@@ -1909,6 +2155,16 @@ function saveSubj(editId){
     if(!oldSub){ alert('No se encontró el ramo a editar'); return; }
     const oldSlots=(oldSub.schedule||[]).map(sl=>({day:sl.day,start:sl.start,end:sl.end}));
     scheduleChanged=!areSchedulesEquivalent(oldSlots,schedule);
+    if(scheduleChanged){
+      const ok=confirm(
+        '⚠️ Cambio de horario\n\n' +
+        'Cambiar los bloques horarios reasignará todos tus registros históricos de asistencia al nuevo horario.\n\n' +
+        'Esto afecta el historial pasado: si moviste una clase de Lunes a Martes, los registros anteriores ' +
+        'pasarán a aparecer como Martes desde el inicio del semestre.\n\n' +
+        '¿Deseas continuar de todas formas?'
+      );
+      if(!ok) return;
+    }
     Object.assign(oldSub,{name,type,minAtt,color,schedule,group});
     if(scheduleChanged) migrateSubjectDataKeys(editId,oldSlots,schedule);
   } else {
@@ -1917,7 +2173,7 @@ function saveSubj(editId){
   closeM(); saveState();
   toast(editId ? 'Ramo actualizado exitosamente' : 'Ramo guardado exitosamente', 'ok');
   if(editId&&scheduleChanged){
-    toast('Horario actualizado: se recalculó el semestre para este ramo', 'info');
+    toast('Horario actualizado. Los registros históricos fueron reasignados al nuevo horario.', 'warn');
   }
 }
 
