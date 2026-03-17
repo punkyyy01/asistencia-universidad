@@ -590,6 +590,91 @@
         }
       }
     }
+
+    /* ══════════════════════════════════
+       EVENTS VIEW
+    ══════════════════════════════════ */
+    .ev-wrap{padding:20px}
+    .ev-top{display:flex;justify-content:space-between;align-items:center;
+            margin-bottom:20px;gap:10px;flex-wrap:wrap}
+    .ev-top-title{font-size:16px;font-weight:700}
+    .ev-section{margin-bottom:24px}
+    .ev-sec-label{font-size:10px;font-weight:700;color:var(--muted);
+                  text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;padding:0 2px}
+    .ev-list{display:flex;flex-direction:column;gap:8px}
+
+    .ev-card{background:var(--sur);border:1px solid var(--border);
+             border-left:4px solid var(--evclr,var(--accent));border-radius:var(--r);
+             padding:14px 16px;display:flex;align-items:center;gap:12px;transition:var(--tr)}
+    .ev-card:hover{background:var(--sur2)}
+    .ev-card.ev-past{opacity:.55}
+    .ev-card.ev-today{background:rgba(239,68,68,.05)}
+    .ev-card.ev-soon{background:rgba(245,158,11,.04)}
+    .ev-card-body{flex:1;min-width:0}
+    .ev-card-name{font-size:14px;font-weight:700;margin-bottom:5px;
+                  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .ev-card-meta{font-size:12px;color:var(--muted);display:flex;align-items:center;
+                  gap:7px;flex-wrap:wrap}
+    .ev-card-acts{display:flex;gap:4px;flex-shrink:0;align-self:flex-start}
+
+    .ev-badge{padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700}
+    .ev-countdown{padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700}
+    .ev-cd-today{background:rgba(239,68,68,.15);color:var(--red)}
+    .ev-cd-soon{background:rgba(245,158,11,.15);color:var(--yellow)}
+    .ev-cd-future{background:rgba(91,106,245,.12);color:var(--accent)}
+    .ev-cd-past{background:var(--sur2);color:var(--muted)}
+
+    .ev-empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px}
+    .ev-empty svg{width:44px;height:44px;stroke-width:1.5;margin:0 auto 12px;
+                  display:block;color:var(--accent)}
+    .ev-empty p{margin-bottom:16px}
+
+    /* Past events collapsible */
+    .ev-past-toggle{background:none;border:1px solid var(--border);border-radius:var(--rsm);
+                    color:var(--muted);cursor:pointer;font-size:13px;padding:7px 12px;
+                    width:100%;text-align:left;transition:var(--tr);display:flex;
+                    align-items:center;justify-content:space-between}
+    .ev-past-toggle:hover{background:var(--sur2);color:var(--text)}
+
+    /* Event dots on calendar day headers */
+    .cal-dh-evts{display:flex;gap:3px;justify-content:center;flex-wrap:wrap;
+                 padding:3px 2px 2px;min-height:14px}
+    .cal-ev-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;cursor:default;
+                transition:transform .12s ease}
+    .cal-ev-dot:hover{transform:scale(1.5)}
+    .cal-ev-more{font-size:8px;color:var(--muted);line-height:8px;align-self:center}
+
+    /* Upcoming events mini-card on list view */
+    .ev-mini{background:var(--sur);border:1px solid var(--border);border-radius:var(--r);
+             padding:12px 14px;position:relative;overflow:hidden}
+    .ev-mini::before{content:'';position:absolute;left:0;top:0;bottom:0;
+                     width:3px;background:linear-gradient(to bottom,var(--accent),#a855f7)}
+    .ev-mini-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+    .ev-mini-title{font-size:11px;font-weight:700;color:var(--muted);
+                   text-transform:uppercase;letter-spacing:.8px;
+                   display:flex;align-items:center;gap:5px}
+    .ev-mini-list{display:flex;flex-direction:column;gap:7px}
+    .ev-mini-row{display:flex;align-items:center;gap:9px}
+    .ev-mini-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .ev-mini-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;
+                  white-space:nowrap;font-size:13px;font-weight:500}
+    .ev-mini-date{font-size:11px;color:var(--muted);flex-shrink:0;white-space:nowrap}
+    .ev-mini-cd{font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px;flex-shrink:0}
+
+    /* Event in mobile day view */
+    .mob-ev-item{background:var(--sur);border:1px solid var(--border);
+                 border-left:4px solid var(--evclr,var(--accent));
+                 border-radius:var(--r);padding:12px 14px}
+    .mob-ev-name{font-size:15px;font-weight:700;margin-bottom:4px}
+    .mob-ev-meta{font-size:12px;color:var(--muted);display:flex;align-items:center;
+                 gap:7px;flex-wrap:wrap}
+
+    @media(max-width:960px){.ev-wrap{padding:14px}}
+    @media(max-width:600px){
+      .ev-wrap{padding:12px}
+      .ev-card{padding:12px;gap:10px}
+      .ev-card-acts{flex-direction:column}
+    }
   </style>
 </head>
 <body>
@@ -600,6 +685,7 @@
       <div class="tabs">
         <button class="tab active" id="tab-cal" onclick="switchView('cal')"><span class="tab-ico" aria-hidden="true"><i data-lucide="calendar"></i></span><span id="tab-cal-label">Horario</span></button>
         <button class="tab" id="tab-list" onclick="switchView('list')"><span class="tab-ico" aria-hidden="true"><i data-lucide="book-open"></i></span><span>Ramos</span></button>
+        <button class="tab" id="tab-events" onclick="switchView('events')"><span class="tab-ico" aria-hidden="true"><i data-lucide="bell"></i></span><span>Eventos</span></button>
       </div>
       <div class="hdr-actions">
         <button class="btn btn-s" onclick="openDayModal()"><span class="btn-ico" aria-hidden="true"><i data-lucide="ban"></i></span><span class="btn-label">Día libre</span></button>
@@ -634,6 +720,23 @@ const YEAR_GUARD_DAYS = 366;
 const SUBJECT_TYPES = ['Teoría','Taller','Laboratorio'];
 const SUBJECT_TYPE_OTHER = 'Otro';
 
+const EVENT_TYPES = ['Control','Solemne','Prueba','Tarea','Proyecto','Examen Final','Otro'];
+const EVENT_TYPE_COLORS = {
+  'Control':      '#5b6af5',
+  'Solemne':      '#ef4444',
+  'Prueba':       '#f97316',
+  'Tarea':        '#f59e0b',
+  'Proyecto':     '#14b8a6',
+  'Examen Final': '#a855f7',
+  'Otro':         '#97a5ba'
+};
+function evTypeColor(type){ return EVENT_TYPE_COLORS[type] || '#97a5ba'; }
+function daysUntil(dateStr){
+  const today=new Date(); today.setHours(0,0,0,0);
+  const d=parseD(dateStr); d.setHours(0,0,0,0);
+  return Math.round((d-today)/86400000);
+}
+
 // ════════════════════════════════════════
 // STATE
 // ════════════════════════════════════════
@@ -656,6 +759,7 @@ function makeInitialState() {
     attendance: {},   // "subId_YYYY-MM-DD_HHMM" -> true|false
     offClasses: {},   // "subId_YYYY-MM-DD_HHMM" -> true
     offDays: [],      // ["YYYY-MM-DD"]
+    events: [],       // [{id, title, date, time, type, subjectId}]
     theme: getDefaultTheme()
   };
 }
@@ -667,6 +771,7 @@ function withStateDefaults(raw){
   next.attendance = next.attendance && typeof next.attendance === 'object' ? next.attendance : {};
   next.offClasses = next.offClasses && typeof next.offClasses === 'object' ? next.offClasses : {};
   next.offDays = Array.isArray(next.offDays) ? next.offDays : [];
+  next.events  = Array.isArray(next.events)  ? next.events  : [];
   next.theme = normalizeTheme(next.theme || getDefaultTheme());
   return next;
 }
@@ -813,6 +918,19 @@ function normalizeImportedState(payload){
     });
   }
 
+  const events = [];
+  for (const ev of (shaped.events || [])) {
+    if (!ev || !isIsoDate(ev.date) || !String(ev.title||'').trim()) continue;
+    events.push({
+      id: String(ev.id || uid()),
+      title: String(ev.title).trim().slice(0, 100),
+      date: ev.date,
+      time: isValidTime(ev.time||'') ? ev.time : '',
+      type: EVENT_TYPES.includes(ev.type) ? ev.type : 'Otro',
+      subjectId: String(ev.subjectId || '')
+    });
+  }
+
   const state = {
     semStart: isIsoDate(shaped.semStart) ? shaped.semStart : makeInitialState().semStart,
     semEnd: isIsoDate(shaped.semEnd) ? shaped.semEnd : '',
@@ -820,6 +938,7 @@ function normalizeImportedState(payload){
     attendance: {},
     offClasses: {},
     offDays: Array.from(new Set((Array.isArray(shaped.offDays) ? shaped.offDays : []).filter(isIsoDate))),
+    events,
     theme: normalizeTheme(shaped.theme)
   };
 
@@ -1211,6 +1330,7 @@ function switchView(v) {
   curView=v;
   document.getElementById('tab-cal').classList.toggle('active',v==='cal');
   document.getElementById('tab-list').classList.toggle('active',v==='list');
+  document.getElementById('tab-events').classList.toggle('active',v==='events');
   render();
 }
 function goDetail(id) { curView='detail'; detailId=id; render(); }
@@ -1219,6 +1339,7 @@ function goBack()     {
   curView=prev; detailId=null; render();
   document.getElementById('tab-list').classList.toggle('active',prev==='list');
   document.getElementById('tab-cal').classList.toggle('active',prev==='cal');
+  document.getElementById('tab-events').classList.toggle('active',false);
 }
 function shiftMobileDay(delta) { mobileDayOffset += delta; render(); }
 function isMobileDayView() { return window.innerWidth <= 600; }
@@ -1229,9 +1350,10 @@ function isMobileDayView() { return window.innerWidth <= 600; }
 function render() {
   _rc = { gc: new Map(), cs: new Map() };
   const main=document.getElementById('main');
-  if(curView==='cal')    main.innerHTML=renderCal();
+  if(curView==='cal')         main.innerHTML=renderCal();
   else if(curView==='list')   main.innerHTML=renderList();
   else if(curView==='detail') main.innerHTML=renderDetail();
+  else if(curView==='events') main.innerHTML=renderEvents();
 
   if(curView==='cal') positionBlocks();
   refreshIcons();
@@ -1280,9 +1402,13 @@ function renderCal() {
   dates.forEach((date,i)=>{
     const ds=toStr(date);
     const isTod=ds===today;
+    const dayEvs=(S.events||[]).filter(e=>e.date===ds);
+    const dotsHtml=dayEvs.slice(0,4).map(e=>`<span class="cal-ev-dot" style="background:${evTypeColor(e.type)}" title="${esc(e.title)}"></span>`).join('');
+    const moreEvs=dayEvs.length>4?`<span class="cal-ev-more">+${dayEvs.length-4}</span>`:'';
     gridHTML+=`<div class="cal-dh${isTod?' today-col':''}" style="grid-row:1;grid-column:${i+2}">
       <div class="cal-dh-name">${DAYS_S[date.getDay()]}</div>
       <div class="cal-dh-date${isTod?' today-num':''}">${date.getDate()} ${MONTHS_S[date.getMonth()]}</div>
+      <div class="cal-dh-evts">${dotsHtml}${moreEvs}</div>
     </div>`;
   });
 
@@ -1391,6 +1517,19 @@ function renderCalMobile() {
   }
   dayClasses.sort((a,b) => tMin(a.slot.start) - tMin(b.slot.start));
 
+  const dayEvs = (S.events||[]).filter(e=>e.date===ds).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+  const dayEvHtml = dayEvs.map(ev=>{
+    const color=evTypeColor(ev.type);
+    const timeStr=ev.time?` · ${ev.time}`:'';
+    return `<div class="mob-ev-item" style="--evclr:${color}">
+      <div class="mob-ev-name">${esc(ev.title)}</div>
+      <div class="mob-ev-meta">
+        <span class="ev-badge" style="background:${color}20;color:${color}">${esc(ev.type)}</span>
+        <span>${fmtDate(ev.date)}${timeStr}</span>
+      </div>
+    </div>`;
+  }).join('');
+
   let classesHtml = '';
   if (isDayOff) {
     classesHtml = `<div class="mob-day-off">${icon('ban','ico-inline')} Día libre</div>`;
@@ -1405,6 +1544,7 @@ function renderCalMobile() {
     ontouchstart="mobSwipeStart(event)"
     ontouchmove="mobSwipeMove(event)"
     ontouchend="mobSwipeEnd(event)">
+    ${dayEvHtml}
     ${classesHtml}
   </div>`;
 }
@@ -1589,6 +1729,7 @@ function renderList() {
 
   const semEnd=S.semEnd?fmtDate(S.semEnd):'hoy';
   const globalCard = renderGlobalStatsCard();
+  const upcomingEvCard = renderUpcomingEventsCard();
   return `<div class="list-wrap">
     <div class="list-top">
       <div style="color:var(--muted);font-size:13px">
@@ -1596,6 +1737,7 @@ function renderList() {
         → <strong style="color:var(--text)">${semEnd}</strong>
       </div>
       ${globalCard}
+      ${upcomingEvCard}
     </div>
     <div class="list-grid">${cards}</div>
   </div>`;
@@ -2347,6 +2489,238 @@ function confirmReset(){
     localStorage.removeItem(KEY_OLD);
     S=loadState(); applyTheme(S.theme); closeM(); curView='cal'; weekOffset=0; detailId=null; render();
     toast('Todos los datos fueron borrados', 'warn');
+  }
+}
+
+// ════════════════════════════════════════
+// EVENTS
+// ════════════════════════════════════════
+function renderUpcomingEventsCard() {
+  const today = toStr(new Date());
+  const upcoming = (S.events||[])
+    .filter(e => e.date >= today)
+    .sort((a,b) => a.date.localeCompare(b.date) || (a.time||'').localeCompare(b.time||''))
+    .slice(0, 5);
+  if (!upcoming.length) return '';
+
+  const rows = upcoming.map(ev => {
+    const color = evTypeColor(ev.type);
+    const d = daysUntil(ev.date);
+    let cdLabel, cdStyle;
+    if (d === 0) { cdLabel = 'Hoy'; cdStyle = 'ev-cd-today'; }
+    else if (d <= 3) { cdLabel = d === 1 ? 'Mañana' : `${d}d`; cdStyle = 'ev-cd-soon'; }
+    else { cdLabel = `${d}d`; cdStyle = 'ev-cd-future'; }
+
+    return `<div class="ev-mini-row">
+      <span class="ev-mini-dot" style="background:${color}"></span>
+      <span class="ev-mini-name">${esc(ev.title)}</span>
+      <span class="ev-mini-date">${fmtDate(ev.date)}${ev.time?' · '+ev.time:''}</span>
+      <span class="ev-mini-cd ev-countdown ${cdStyle}">${cdLabel}</span>
+    </div>`;
+  }).join('');
+
+  const total = (S.events||[]).filter(e => e.date >= today).length;
+  const viewAllBtn = total > 5
+    ? `<button class="btn btn-g" style="font-size:12px;padding:4px 6px" onclick="switchView('events')">Ver todos →</button>`
+    : `<button class="btn btn-g" style="font-size:12px;padding:4px 6px" onclick="switchView('events')">${icon('arrow-right','btn-ico')}</button>`;
+
+  return `<div class="ev-mini">
+    <div class="ev-mini-hd">
+      <div class="ev-mini-title">${icon('bell','ico-inline')} Próximas evaluaciones</div>
+      <div style="display:flex;gap:5px;align-items:center">
+        <button class="btn btn-s" style="font-size:11px;padding:4px 8px" onclick="openEventModal(null)">${icon('plus','btn-ico')} Agregar</button>
+        ${viewAllBtn}
+      </div>
+    </div>
+    <div class="ev-mini-list">${rows}</div>
+  </div>`;
+}
+
+function renderEvents() {
+  const today = toStr(new Date());
+  const sorted = (S.events||[]).slice().sort((a,b) => a.date.localeCompare(b.date) || (a.time||'').localeCompare(b.time||''));
+  const upcoming = sorted.filter(e => e.date >= today);
+  const past = sorted.filter(e => e.date < today).reverse();
+
+  function evCardHtml(ev, extraCls='') {
+    const color = evTypeColor(ev.type);
+    const d = daysUntil(ev.date);
+    const sub = ev.subjectId ? S.subjects.find(s => s.id === ev.subjectId) : null;
+    let cdLabel, cdCls;
+    if (d === 0)       { cdLabel = 'Hoy';           cdCls = 'ev-cd-today'; }
+    else if (d === 1)  { cdLabel = 'Mañana';         cdCls = 'ev-cd-soon'; }
+    else if (d <= 3)   { cdLabel = `En ${d} días`;   cdCls = 'ev-cd-soon'; }
+    else if (d > 0)    { cdLabel = `En ${d} días`;   cdCls = 'ev-cd-future'; }
+    else               { cdLabel = d === -1 ? 'Ayer' : `Hace ${Math.abs(d)} días`; cdCls = 'ev-cd-past'; }
+
+    const timeStr = ev.time ? ` · ${ev.time}` : '';
+    const subStr = sub ? `<span>${icon('book-open','ico-inline')} ${esc(sub.name)}</span>` : '';
+
+    return `<div class="ev-card ${extraCls}" style="--evclr:${color}">
+      <div class="ev-card-body">
+        <div class="ev-card-name">${esc(ev.title)}</div>
+        <div class="ev-card-meta">
+          <span class="ev-badge" style="background:${color}20;color:${color};border-color:${color}40">${esc(ev.type)}</span>
+          <span>${icon('calendar','ico-inline')} ${fmtDateLong(ev.date)}${timeStr}</span>
+          ${subStr}
+          <span class="ev-countdown ${cdCls}">${cdLabel}</span>
+        </div>
+      </div>
+      <div class="ev-card-acts">
+        <button class="ibtn" onclick="openEventModal('${ev.id}')" title="Editar evento">${icon('pencil')}</button>
+        <button class="ibtn" onclick="confirmDeleteEvent('${ev.id}')" title="Eliminar evento">${icon('trash-2')}</button>
+      </div>
+    </div>`;
+  }
+
+  let upcomingHtml;
+  if (upcoming.length) {
+    upcomingHtml = upcoming.map(ev => {
+      const d = daysUntil(ev.date);
+      const cls = d === 0 ? 'ev-today' : d <= 3 ? 'ev-soon' : '';
+      return evCardHtml(ev, cls);
+    }).join('');
+  } else {
+    upcomingHtml = `<div class="ev-empty">
+      <i data-lucide="calendar-check" aria-hidden="true"></i>
+      <p>No hay evaluaciones próximas</p>
+      <button class="btn btn-p" onclick="openEventModal(null)">${icon('plus','btn-ico')}<span class="btn-label">Agregar evento</span></button>
+    </div>`;
+  }
+
+  let pastSection = '';
+  if (past.length) {
+    const pastCards = past.map(ev => evCardHtml(ev, 'ev-past')).join('');
+    pastSection = `<div style="margin-top:8px">
+      <button class="ev-past-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'flex':'none';this.querySelector('.ev-toggle-ico').style.transform=this.nextElementSibling.style.display==='none'?'':'rotate(180deg)'">
+        <span>${icon('clock','ico-inline')} ${past.length} evento${past.length>1?'s':''} pasado${past.length>1?'s':''}</span>
+        <span class="ev-toggle-ico" style="transition:transform .2s">${icon('chevron-down','ico-inline')}</span>
+      </button>
+      <div class="ev-list" style="display:none;flex-direction:column;gap:8px;margin-top:8px">${pastCards}</div>
+    </div>`;
+  }
+
+  return `<div class="ev-wrap">
+    <div class="ev-top">
+      <div class="ev-top-title">${icon('bell','ico-inline')} Evaluaciones y Fechas</div>
+      <button class="btn btn-p" onclick="openEventModal(null)">${icon('plus','btn-ico')}<span class="btn-label">Nuevo evento</span></button>
+    </div>
+    <div class="ev-section">
+      <div class="ev-sec-label">Próximos</div>
+      <div class="ev-list">${upcomingHtml}</div>
+    </div>
+    ${pastSection}
+  </div>`;
+}
+
+// ── Event Modal ──
+function openEventModal(editId) {
+  const ev = editId ? (S.events||[]).find(e => e.id === editId) : null;
+  const title = ev ? ev.title : '';
+  const date  = ev ? ev.date  : toStr(new Date());
+  const time  = ev ? (ev.time  || '') : '';
+  const type  = ev ? ev.type  : 'Control';
+  const subjectId = ev ? (ev.subjectId || '') : '';
+
+  const typeOpts = EVENT_TYPES.map(t =>
+    `<option value="${t}"${type===t?' selected':''}>${t}</option>`
+  ).join('');
+
+  const subOpts = `<option value="">Sin ramo específico</option>` +
+    S.subjects.map(s =>
+      `<option value="${s.id}"${subjectId===s.id?' selected':''}>${esc(s.name)}${s.type?' ('+esc(s.type)+')':''}</option>`
+    ).join('');
+
+  const deleteBtnHtml = editId
+    ? `<button class="btn btn-d" onclick="confirmDeleteEvent('${editId}')">${icon('trash-2','btn-ico')}<span class="btn-label">Eliminar</span></button>`
+    : '';
+
+  openModal(`<div class="overlay" onclick="closeModal(event)">
+    <div class="modal" style="max-width:440px">
+      <div class="mhd">
+        <h3>${icon('bell','ico-inline')} ${editId ? 'Editar evento' : 'Nuevo evento'}</h3>
+        <button class="mclose" onclick="closeM()">✕</button>
+      </div>
+      <div class="mbody">
+        <div class="fg">
+          <label class="fl">Título *</label>
+          <input class="fi" id="ev-title" placeholder="Ej: Control 1 — Cálculo" value="${esc(title)}" maxlength="100">
+        </div>
+        <div class="frow">
+          <div class="fg">
+            <label class="fl">Tipo</label>
+            <select class="fsel" id="ev-type" onchange="document.getElementById('ev-type-preview').style.background=evTypeColor(this.value)+'20';document.getElementById('ev-type-preview').style.color=evTypeColor(this.value)">${typeOpts}</select>
+          </div>
+          <div class="fg" style="display:flex;flex-direction:column;justify-content:flex-end">
+            <span id="ev-type-preview" class="ev-badge" style="background:${evTypeColor(type)}20;color:${evTypeColor(type)};padding:6px 10px;text-align:center">${type}</span>
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fg">
+            <label class="fl">Fecha *</label>
+            <input class="fi" type="date" id="ev-date" value="${date}">
+          </div>
+          <div class="fg">
+            <label class="fl">Hora (opcional)</label>
+            <input class="fi" type="time" id="ev-time" value="${time}">
+          </div>
+        </div>
+        <div class="fg">
+          <label class="fl">Ramo (opcional)</label>
+          <select class="fsel" id="ev-sub">${subOpts}</select>
+        </div>
+      </div>
+      <div class="mfoot">
+        ${deleteBtnHtml}
+        <button class="btn btn-s" onclick="closeM()">Cancelar</button>
+        <button class="btn btn-p" onclick="saveEventModal(${editId ? `'${editId}'` : 'null'})">Guardar</button>
+      </div>
+    </div>
+  </div>`);
+
+  // Sync the type preview label with the select on change
+  const sel = document.getElementById('ev-type');
+  const preview = document.getElementById('ev-type-preview');
+  if (sel && preview) {
+    sel.addEventListener('change', () => {
+      preview.textContent = sel.value;
+    });
+  }
+}
+
+function saveEventModal(editId) {
+  const title = document.getElementById('ev-title')?.value?.trim();
+  const date  = document.getElementById('ev-date')?.value;
+  const time  = document.getElementById('ev-time')?.value || '';
+  const type  = document.getElementById('ev-type')?.value || 'Control';
+  const subjectId = document.getElementById('ev-sub')?.value || '';
+
+  if (!title) { alert('El título es requerido'); return; }
+  if (!date)  { alert('La fecha es requerida');  return; }
+
+  if (!S.events) S.events = [];
+
+  if (editId) {
+    const idx = S.events.findIndex(e => e.id === editId);
+    if (idx >= 0) S.events[idx] = { ...S.events[idx], title, date, time, type, subjectId };
+    toast('Evento actualizado', 'ok');
+  } else {
+    S.events.push({ id: uid(), title, date, time, type, subjectId });
+    toast('Evento agregado', 'ok');
+  }
+
+  closeM();
+  saveState();
+}
+
+function confirmDeleteEvent(id) {
+  const ev = (S.events||[]).find(e => e.id === id);
+  if (!ev) return;
+  if (confirm(`¿Eliminar "${ev.title}"?`)) {
+    S.events = (S.events||[]).filter(e => e.id !== id);
+    closeM();
+    saveState();
+    toast('Evento eliminado', 'warn');
   }
 }
 
