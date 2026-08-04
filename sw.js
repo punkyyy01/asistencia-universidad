@@ -1,12 +1,23 @@
-const CACHE_NAME = "asistencia-pwa-v2";
+const CACHE_NAME = "asistencia-pwa-v3";
 const APP_SHELL = [
   "/",
   "./",
   "./asistencia.html",
+  "./styles.css",
   "./manifest.json",
   "./sw.js",
   "./icons/icon-192.svg",
-  "./icons/icon-512.svg"
+  "./icons/icon-512.svg",
+  "./js/constants.js",
+  "./js/utils.js",
+  "./js/state.js",
+  "./js/sync.js",
+  "./js/business.js",
+  "./js/viewstate.js",
+  "./js/render.js",
+  "./js/actions.js",
+  "./js/modals.js",
+  "./js/init.js"
 ];
 const THIRD_PARTY_ASSETS = [
   "https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"

@@ -86,7 +86,7 @@ Donde `actFut` son las clases activas futuras y `total` es el total de clases ac
 | Frontend       | HTML5 + CSS3 + JavaScript vanilla   |
 | Persistencia   | `localStorage` (clave `asistencia_v5`) |
 | Dependencias   | **Ninguna** — cero librerías externas |
-| Arquitectura   | Single Page Application (SPA) en un solo archivo |
+| Arquitectura   | Single Page Application (SPA), sin build ni bundler |
 
 ---
 
@@ -94,11 +94,24 @@ Donde `actFut` son las clases activas futuras y `total` es el total de clases ac
 
 ```
 proyecto/
-├── asistencia.html   # Aplicación completa (HTML + CSS + JS)
-├── README.md         # Este archivo
-├── requirements.txt  # Requisitos del proyecto
-└── vercel.json       # Configuración de despliegue en Vercel
+├── asistencia.html   # Markup de la app, enlaza styles.css y js/*.js
+├── styles.css         # Todos los estilos
+├── js/
+│   ├── constants.js    # Constantes globales
+│   ├── state.js        # Modelo de datos, carga/guardado en localStorage
+│   ├── sync.js          # Link de sincronización entre dispositivos
+│   ├── utils.js          # Helpers de fecha/hora/formato
+│   ├── business.js        # Cálculo de asistencia y proyecciones
+│   ├── viewstate.js        # Estado de navegación (vista, semana, etc.)
+│   ├── render.js             # Renderizado del DOM
+│   ├── actions.js             # Acciones del usuario (marcar, borrar, etc.)
+│   ├── modals.js               # Modales (ramo, ajustes, día libre)
+│   └── init.js                  # Arranque de la app
+├── README.md          # Este archivo
+└── vercel.json        # Configuración de despliegue en Vercel
 ```
+
+Los `<script>` de `asistencia.html` se cargan como scripts clásicos (no módulos) en ese mismo orden — comparten el scope global igual que antes, solo que repartido en archivos por sección para que cada uno sea más corto de navegar.
 
 ---
 
