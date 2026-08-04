@@ -161,4 +161,4 @@ La aplicación soporta migración automática desde v4 a v5:
 
 ## 📄 Licencia
 
-Este proyecto es de uso personal/educativo. Todos los derechos reservados.
+Este proyecto está bajo la licencia MIT. Ver el archivo [LICENSE](LICENSE) para más detalles.
